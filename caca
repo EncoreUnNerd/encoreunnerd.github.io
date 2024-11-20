@@ -1,0 +1,10 @@
+#!/bin/bash
+
+random_color() {
+    echo $((31 + RANDOM % 7))
+}
+
+while :; do
+    color=$(random_color)
+    echo -e -n "\033[${color}mCACA💩\033[0m"
+done
