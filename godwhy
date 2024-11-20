@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while True; do
+while true; do
 	clear
 	echo "─▄▀▀▀▀▄─█──█────▄▀▀█─▄▀▀▀▀▄─█▀▀▄"
 	echo "─█────█─█──█────█────█────█─█──█"
