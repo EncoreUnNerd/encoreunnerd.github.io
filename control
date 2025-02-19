@@ -1,0 +1,41 @@
+import urllib.request
+import json
+import time
+import subprocess
+
+result = 0
+
+def exiting():
+	print("Exiting...")
+	exit()
+
+def reverse_screen():
+	subprocess.run(['xrandr', '--output', 'eDP', '--rotate', 'inverted'], check=True)
+
+def normal_screen():
+	subprocess.run(['xrandr', '--output', 'eDP', '--rotate', 'normal'], check=True)
+
+def launcher():
+	match result:
+		case 1:
+			exiting()
+		case 2:
+			reverse_screen()
+		case 3:
+			normal_screen()
+		case _:
+			return
+
+def main():
+	global result
+	paste_url = "https://pastebin.com/raw/ar1jJQ2s"
+	while (True):
+		with urllib.request.urlopen(paste_url) as response:
+			paste_content = response.read().decode("utf-8")
+		json_content = json.loads(paste_content)
+		if result != json_content["exec"]:
+			result = json_content["exec"]
+			launcher()
+
+if __name__ == "__main__":
+	main()
