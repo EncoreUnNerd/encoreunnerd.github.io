@@ -15,7 +15,7 @@ def reverse_screen():
 def normal_screen():
 	subprocess.run(['xrandr', '--output', 'eDP', '--rotate', 'normal'], check=True)
 
-def launcher():
+def launcher(result):
 	match result:
 		case 1:
 			exiting()
@@ -35,7 +35,7 @@ def main():
 		json_content = json.loads(paste_content)
 		if result != json_content["exec"]:
 			result = json_content["exec"]
-			launcher()
+			launcher(result)
 
 if __name__ == "__main__":
 	main()
