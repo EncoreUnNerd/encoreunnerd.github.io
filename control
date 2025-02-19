@@ -86,7 +86,7 @@ def main():
 			elif len(values) == 1:
 				if result != values[0]:
 					result = values[0]
-					splitresult = result.split('^')
+					splitresult = result.split('!')
 					if len(splitresult) == 2:
 						launch_custom(splitresult)
 					else:
