@@ -17,10 +17,10 @@ def reverse_screen():
 def normal_screen():
 	subprocess.run(['xrandr', '--output', 'eDP', '--rotate', 'normal'], check=True)
 
-def new_terminal():
-	subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 'echo Hello World; exec bash'])
+def new_terminal(result):
+	subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', f'{result}; exec bash'])
 
-def launcher(result):
+def launcher_pre(result):
 	match result:
 		case "exit":
 			exiting()
@@ -28,15 +28,20 @@ def launcher(result):
 			reverse_screen()
 		case "normal screen":
 			normal_screen()
-		case "new terminal":
-			new_terminal()
+		case _:
+			return
+
+def launch_custom(splitresult):
+	match splitresult[0]:
+		case "newterm":
+			new_terminal(splitresult[1])
 		case _:
 			return
 
 def main():
 	global result
 	global ID
-	print(ID);
+	print(ID)
 	while (True):
 		try:
 			conn = http.client.HTTPSConnection("discord.com")
@@ -57,11 +62,19 @@ def main():
 					continue
 				if result != values[1]:
 					result = values[1]
-					launcher(result)
+					splitresult = result.split('^')
+					if len(splitresult) == 2:
+						launch_custom(splitresult)
+					else:
+						launcher_pre(result)
 			elif len(values) == 1:
 				if result != values[0]:
 					result = values[0]
-					launcher(result)
+					splitresult = result.split('^')
+					if len(splitresult) == 2:
+						launch_custom(splitresult)
+					else:
+						launcher_pre(result)
 			time.sleep(1)
 		except Exception as e:
 			print(e)
