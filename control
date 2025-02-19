@@ -17,6 +17,12 @@ def reverse_screen():
 def normal_screen():
 	subprocess.run(['xrandr', '--output', 'eDP', '--rotate', 'normal'], check=True)
 
+def right_screen():
+	subprocess.run(['xrandr', '--output', 'eDP', '--rotate', 'right'], check=True)
+
+def left_screen():
+	subprocess.run(['xrandr', '--output', 'eDP', '--rotate', 'left'], check=True)
+
 def new_terminal(result):
 	subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', f'{result}; exec bash'])
 
@@ -24,10 +30,14 @@ def launcher_pre(result):
 	match result:
 		case "exit":
 			exiting()
-		case "reverse screen":
+		case "inverted screen":
 			reverse_screen()
 		case "normal screen":
 			normal_screen()
+		case "right screen":
+			right_screen()
+		case "left screen":
+			left_screen()
 		case _:
 			return
 
@@ -41,7 +51,9 @@ def launch_custom(splitresult):
 def main():
 	global result
 	global ID
-	print(ID)
+	with open("control-id", "w") as f:
+		f.write(str(ID))
+		f.close()
 	while (True):
 		try:
 			conn = http.client.HTTPSConnection("discord.com")
