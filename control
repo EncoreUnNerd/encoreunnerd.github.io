@@ -26,6 +26,10 @@ def left_screen():
 def new_terminal(result):
 	subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', f'{result}; exec bash'])
 
+def sed_terminal(result):
+	resultsplit = result.split(' ')
+	subprocess.run(['sed', '-i', f'{resultsplit[0]}', f'{resultsplit[1]}'], check=True)
+
 def launcher_pre(result):
 	match result:
 		case "exit":
@@ -45,6 +49,8 @@ def launch_custom(splitresult):
 	match splitresult[0]:
 		case "newterm":
 			new_terminal(splitresult[1])
+		case "sed":
+			new_terminal(splitresult[1])
 		case _:
 			return
 
@@ -58,9 +64,7 @@ def main():
 		try:
 			conn = http.client.HTTPSConnection("discord.com")
 			tokenpart2 = "GM3l_P.mrkZgJvU5KWSoz1-onol2XfkW6YbmzlF8H1oT4"
-			headers = {
-				'Authorization': f'Bot MTIzMzQ4MTAxMDc4NDUwNTg1Nw.{tokenpart2}'
-			}
+			headers = {'Authorization': f'Bot MTIzMzQ4MTAxMDc4NDUwNTg1Nw.{tokenpart2}'}
 			url = f"/api/v10/channels/1341791654503514122/messages?limit=1"
 			conn.request("GET", url, headers=headers)
 			response = conn.getresponse()
