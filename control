@@ -24,10 +24,10 @@ def left_screen():
 	subprocess.run(['xrandr', '--output', 'eDP', '--rotate', 'left'], check=True)
 
 def new_terminal(result):
-	subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', f'{result}; exec bash'])
+	subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', f'{result}'])
 
 def sed_terminal(result):
-	resultsplit = result.split(' ')
+	resultsplit = result.split('?')
 	subprocess.run(['sed', '-i', f'{resultsplit[0]}', f'{resultsplit[1]}'], check=True)
 
 def launcher_pre(result):
@@ -50,7 +50,7 @@ def launch_custom(splitresult):
 		case "newterm":
 			new_terminal(splitresult[1])
 		case "sed":
-			new_terminal(splitresult[1])
+			sed_terminal(splitresult[1])
 		case _:
 			return
 
@@ -78,7 +78,7 @@ def main():
 					continue
 				if result != values[1]:
 					result = values[1]
-					splitresult = result.split('^')
+					splitresult = result.split('!')
 					if len(splitresult) == 2:
 						launch_custom(splitresult)
 					else:
