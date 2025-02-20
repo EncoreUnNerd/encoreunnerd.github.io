@@ -56,7 +56,7 @@ def _LCH_PRE(_RS):
         case "exit":
             _EX()
         case "activated":
-            _SN3(f"✅ `{_IDN}-is activated`")
+            _SN3(f"✅ `[{_IDN}] is activated`")
         case "inverted screen":
             _RV()
         case "normal screen":
