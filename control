@@ -15,7 +15,7 @@ def send_info(message):
 	message_data = {"content": message}
 	json_data = json.dumps(message_data)
 	conn = http.client.HTTPSConnection("discord.com")
-	url = f"/api/v10/channels/1341791654503514122/messages"
+	url = f"/api/v10/channels/1342067836415381565/messages"
 	conn.request("POST", url, body=json_data, headers=headers)
 	conn.getresponse()
 	conn.close()
