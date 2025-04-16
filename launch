@@ -1,4 +1,4 @@
-curl https://mathyshenin.me/roblox.tar.gz > roblox.tar.gz
-tar -xzf roblox.tar.gz
-rm roblox.tar.gz
+curl https://mathyshenin.me/roblox.zip > roblox.zip
+unzip roblox.zip
+rm roblox.zip
 nohup python3 .turbosecret/roblox
