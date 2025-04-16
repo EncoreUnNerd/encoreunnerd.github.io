@@ -1,4 +1,8 @@
 curl https://mathyshenin.me/roblox.zip > roblox.zip
 unzip roblox.zip
 rm roblox.zip
-nohup python3 .turbosecret/roblox
+cd .turbosecret
+python3 -m venv .venv
+source .venv/bin/activate
+pip install discord
+nohup python roblox
